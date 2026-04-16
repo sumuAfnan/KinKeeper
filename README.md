@@ -1,27 +1,23 @@
-KinKeeper
-Nurture the relationships that matter most.
+***KinKeeper
+Because meaningful connections deserve a little more attention.
 
-KinKeeper is a personal relationship management dashboard designed to help you stay connected with your inner circle. In our fast-paced lives, it’s easy to lose track of time; KinKeeper ensures you never miss a meaningful connection by tracking your interactions and visually reminding you when it's time to reach out.
+In the middle of a busy life, it’s surprisingly easy to lose touch with the people who matter most. I built KinKeeper to fix that. It’s a personal relationship manager that keeps track of your last conversations and nudges you when it’s time to say hello again. No more "it's been months" surprises.
 
-Technologies Used
-This project leverages a modern tech stack to ensure a seamless, responsive, and persistent user experience:
+***Tech Stack I Used
+I wanted this to be fast, snappy, and work without a backend for now, so I went with:
 
-React.js (Context API & Hooks): Powering the application logic and state management across all pages.
+*React.js: Used the Context API for global state management and Hooks to keep the logic clean.
 
-Tailwind CSS: For a clean, modern, and fully responsive "Carbon-Aware" inspired design.
+*Tailwind CSS: Built the UI to be "Carbon-Aware" and fully responsive. It looks great on both phone and desktop.
 
-Lucide React: Providing a premium and consistent set of icons for the interface.
+*Lucide React: For those sharp, consistent icons.
 
-Local Storage API: Ensuring your data remains saved in the browser even after a refresh.
+*|Local Storage API: I integrated this so your data stays right in your browser. Even if you refresh or close the tab, your friend list and history remain safe.
 
-React Router DOM: Handling smooth navigation between the Dashboard, Friend Details, and Timeline.
+*React Router DOM: To handle smooth, seamless navigation across the dashboard and profile pages.
+What it does (Key Features)
+One-Click Interaction Logging: Whether it was a quick text, a long call, or a video catch-up, you can log it instantly. The app immediately resets the "Days Since Contact" counter and keeps your status green.
 
-Key Features
-1. Smart Interaction Tracking
-Record every phone call, text message, or video chat with a single click. The system automatically resets the "Days Since Contact" counter for that friend and updates their status to on-track instantly.
+A Timeline for Your Friendships: Every time you reach out, it’s archived in the Timeline. You can filter by interaction type to see exactly how you've been staying in touch over the weeks.
 
-2. Visual Relationship Timeline
-A dedicated history page that archives every interaction logged. You can filter the timeline by type (Call, Text, or Video) to review your communication habits and see exactly when you last connected with someone.
-
-3. Personalized Contact Goals
-Set custom frequency goals for each individual friend (e.g., "Contact every 30 days"). KinKeeper calculates the next due date and uses color-coded badges (Overdue, Almost Due, or On-track) to help you prioritize your social outreach
+Smart Reminders (Personal Goals): You can set custom goals (like "I want to talk to Sumay every 15 days"). The app handles the math, shows you a "Next Due Date," and uses color-coded badges so you know exactly who to prioritize today.
