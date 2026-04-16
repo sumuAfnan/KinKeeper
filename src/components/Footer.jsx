@@ -11,7 +11,7 @@ const Footer = () => {
        
         <div className="mb-4">
           <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white drop-shadow-sm">
-            KeenKeeper
+            KinKeeper
           </h2>
         </div>
 
