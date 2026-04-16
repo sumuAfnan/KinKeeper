@@ -11,7 +11,7 @@ const Footer = () => {
        
         <div className="mb-4">
           <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white drop-shadow-sm">
-            KinKeeper
+            KeenKeeper
           </h2>
         </div>
 
@@ -42,7 +42,7 @@ const Footer = () => {
        
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] md:text-[11px] text-white/70 font-medium tracking-wide">
           <div className="order-2 md:order-1 uppercase">
-            &copy; {new Date().getFullYear()} KinKeeper. All rights reserved.
+            &copy; {new Date().getFullYear()} KeenKeeper. All rights reserved.
           </div>
           
           <div className="flex gap-4 md:gap-8 order-1 md:order-2">
