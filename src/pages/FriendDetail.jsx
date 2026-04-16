@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useFriends } from '../context/FriendContext';
 import { toast } from 'react-toastify';
-import { Mail, Calendar, Target, Clock, Activity, ChevronLeft, Edit2 } from 'lucide-react';
+import { Mail, Calendar, Target, Clock, Activity, ChevronLeft, Trash2 } from 'lucide-react';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 // Assets
@@ -13,16 +13,17 @@ import videoIcon from '../assets/video.png';
 const FriendDetail = () => {
   const { id } = useParams();
   const { friends, addInteraction, loading } = useFriends();
-  const [isEditingGoal, setIsEditingGoal] = useState(false);
-
+  
+  // URL theke asa  ID diye bondhu k khuje ber kora
   const friend = friends.find(f => f.id === parseInt(id));
 
   if (loading) return <LoadingSpinner />;
-  if (!friend) return <div className="text-center py-20 font-bold text-2xl">Friend Not Found</div>;
+  if (!friend) return <div className="text-center py-20 font-bold text-2xl text-gray-800">Friend Not Found</div>;
 
   const handleAction = (type) => {
-    addInteraction(friend.id, type);
-    toast.success(`${type} with ${friend.name} logged!`);
+    // here friend.name er bodole friend.idpathate hobe cz amr Context ID diye data process kore
+    addInteraction(friend.id, type); 
+    toast.success(`${type} with ${friend.name} logged successfully!`);
   };
 
   const getStatusColor = (status) => {
@@ -36,17 +37,16 @@ const FriendDetail = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <Link to="/" className="flex items-center gap-1 text-primary-dark font-medium mb-8 hover:underline">
-        <ChevronLeft size={20} />
-        Back to Dashboard
+      <Link to="/" className="flex items-center gap-1 text-[#2d4a43] font-bold mb-8 hover:opacity-80 transition-all">
+        <ChevronLeft size={20} /> Back to Dashboard
       </Link>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        {/* Left Column - Profile Card */}
+        {/* Left Column - Friend Profile */}
         <div className="lg:col-span-4">
-          <div className="card">
-            <div className="p-8 text-center border-b border-gray-100">
+          <div className="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden">
+            <div className="p-8 text-center border-b border-gray-50">
               <div className="relative inline-block mb-6">
                 <img 
                   src={friend.picture} 
@@ -55,13 +55,13 @@ const FriendDetail = () => {
                 />
                 <div className={`absolute bottom-1 right-1 w-6 h-6 border-4 border-white rounded-full ${friend.status === 'on-track' ? 'bg-emerald-500' : friend.status === 'almost due' ? 'bg-amber-500' : 'bg-rose-500'}`}></div>
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">{friend.name}</h2>
-              <span className={`badge border ${getStatusColor(friend.status)}`}>
+              <h2 className="text-2xl font-black text-gray-900 mb-2">{friend.name}</h2>
+              <span className={`px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border ${getStatusColor(friend.status)}`}>
                 {friend.status}
               </span>
               <div className="mt-4 flex flex-wrap justify-center gap-2">
                 {friend.tags.map((tag, idx) => (
-                  <span key={idx} className="bg-gray-50 text-gray-500 px-3 py-1 rounded-full text-xs font-semibold">
+                  <span key={idx} className="bg-[#dcfce7] text-[#166534] px-3 py-1 rounded-full text-[10px] font-extrabold uppercase">
                     #{tag}
                   </span>
                 ))}
@@ -69,25 +69,20 @@ const FriendDetail = () => {
             </div>
             
             <div className="p-6 space-y-4">
-              <div>
-                <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">About</h4>
-                <p className="text-gray-600 text-sm leading-relaxed">{friend.bio}</p>
-              </div>
+              <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-widest">About</h4>
+              <p className="text-gray-600 text-sm leading-relaxed">{friend.bio}</p>
               <div className="flex items-center gap-3 text-gray-600">
-                <Mail size={16} className="text-primary-dark" />
-                <span className="text-sm">{friend.email}</span>
+                <Mail size={16} className="text-[#2d4a43]" />
+                <span className="text-sm font-bold">{friend.email}</span>
               </div>
             </div>
 
             <div className="p-6 bg-gray-50 flex flex-col gap-3">
-              <button className="w-full py-2.5 rounded-lg border border-gray-200 bg-white text-gray-700 font-medium hover:bg-gray-100 transition-colors text-sm">
-                ⏰ Snooze 2 Weeks
+              <button className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl border border-gray-200 bg-white text-gray-700 font-bold hover:bg-gray-100 text-sm transition-all">
+                <Clock size={18} /> Snooze 2 Weeks
               </button>
-              <button className="w-full py-2.5 rounded-lg border border-gray-200 bg-white text-gray-700 font-medium hover:bg-gray-100 transition-colors text-sm">
-                📦 Archive
-              </button>
-              <button className="w-full py-2.5 rounded-lg border border-rose-100 bg-white text-rose-600 font-medium hover:bg-rose-50 transition-colors text-sm">
-                🗑️ Delete
+              <button className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl border border-rose-100 bg-white text-rose-600 font-bold hover:bg-rose-50 text-sm transition-all">
+                <Trash2 size={18} /> Delete
               </button>
             </div>
           </div>
@@ -95,93 +90,52 @@ const FriendDetail = () => {
 
         {/* Right Column - Stats & Actions */}
         <div className="lg:col-span-8 space-y-8">
-          
           {/* Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div className="card p-6 flex flex-col items-center text-center">
+            <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-50 flex flex-col items-center text-center">
               <Activity className="text-rose-500 mb-3" size={24} />
-              <span className="text-2xl font-bold text-gray-900">{friend.days_since_contact}</span>
-              <span className="text-xs font-medium text-gray-500 uppercase tracking-tighter">Days Since Contact</span>
+              <span className="text-2xl font-black text-gray-900">{friend.days_since_contact}</span>
+              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Days Since Contact</span>
             </div>
-            <div className="card p-6 flex flex-col items-center text-center">
-              <Target className="text-primary-dark mb-3" size={24} />
-              <span className="text-2xl font-bold text-gray-900">{friend.goal}</span>
-              <span className="text-xs font-medium text-gray-500 uppercase tracking-tighter">Current Goal (Days)</span>
+            <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-50 flex flex-col items-center text-center">
+              <Target className="text-[#2d4a43] mb-3" size={24} />
+              <span className="text-2xl font-black text-gray-900">{friend.goal}</span>
+              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Goal (Days)</span>
             </div>
-            <div className="card p-6 flex flex-col items-center text-center">
-              <Clock className="text-amber-500 mb-3" size={24} />
-              <span className="text-2xl font-bold text-gray-900">{friend.next_due_date}</span>
-              <span className="text-xs font-medium text-gray-500 uppercase tracking-tighter">Next Due Date</span>
-            </div>
-          </div>
-
-          {/* Relationship Goal Card */}
-          <div className="card p-8">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                <Target size={20} className="text-primary-dark" />
-                Relationship Goal
-              </h3>
-              <button 
-                onClick={() => setIsEditingGoal(!isEditingGoal)}
-                className="text-primary-dark hover:text-opacity-80 transition-colors"
-                title="Edit Goal"
-              >
-                <Edit2 size={18} />
-              </button>
-            </div>
-            <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-6">
-              <p className="text-emerald-800">
-                You currently aim to contact <span className="font-bold">{friend.name}</span> every <span className="font-bold underline">{friend.goal} days</span>.
-              </p>
-              {isEditingGoal && (
-                <div className="mt-4 flex gap-2">
-                   <input type="number" placeholder={friend.goal} className="w-20 px-3 py-1 rounded border border-emerald-200 outline-none focus:ring-2 focus:ring-primary-light" />
-                   <button className="bg-primary-dark text-white px-4 py-1 rounded text-sm font-medium">Save</button>
-                </div>
-              )}
+            <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-50 flex flex-col items-center text-center">
+              <Calendar className="text-amber-500 mb-3" size={24} />
+              <span className="text-lg font-black text-gray-900">{friend.next_due_date}</span>
+              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Next Due Date</span>
             </div>
           </div>
 
           {/* Quick Check-In Card */}
-          <div className="card p-8 bg-white">
-            <h3 className="text-xl font-bold text-gray-900 mb-8 flex items-center gap-2">
+          <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-50">
+            <h3 className="text-xl font-black text-gray-900 mb-8 flex items-center gap-2">
               <Activity size={20} className="text-rose-500" />
               Quick Check-In
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              <button 
-                onClick={() => handleAction('Call')}
-                className="flex flex-col items-center gap-3 p-6 rounded-2xl hover:bg-gray-50 border-2 border-transparent hover:border-gray-100 transition-all duration-200 group"
-              >
-                <div className="p-4 bg-emerald-50 rounded-full group-hover:scale-110 transition-transform">
-                  <img src={callIcon} alt="Call" className="w-10 h-10" />
+              <button onClick={() => handleAction('Call')} className="flex flex-col items-center gap-3 p-6 rounded-[2rem] bg-slate-50 hover:bg-emerald-50 border-2 border-transparent hover:border-emerald-100 transition-all group">
+                <div className="p-4 bg-white rounded-2xl shadow-sm group-hover:scale-110 transition-transform">
+                  <img src={callIcon} alt="Call" className="w-12 h-12 object-contain" />
                 </div>
-                <span className="font-bold text-gray-700">Log Call</span>
+                <span className="font-black text-xs uppercase tracking-widest text-gray-700">Log Call</span>
               </button>
-              
-              <button 
-                onClick={() => handleAction('Text')}
-                className="flex flex-col items-center gap-3 p-6 rounded-2xl hover:bg-gray-50 border-2 border-transparent hover:border-gray-100 transition-all duration-200 group"
-              >
-                <div className="p-4 bg-purple-50 rounded-full group-hover:scale-110 transition-transform">
-                  <img src={textIcon} alt="Text" className="w-10 h-10" />
+              <button onClick={() => handleAction('Text')} className="flex flex-col items-center gap-3 p-6 rounded-[2rem] bg-slate-50 hover:bg-purple-50 border-2 border-transparent hover:border-purple-100 transition-all group">
+                <div className="p-4 bg-white rounded-2xl shadow-sm group-hover:scale-110 transition-transform">
+                  <img src={textIcon} alt="Text" className="w-12 h-12 object-contain" />
                 </div>
-                <span className="font-bold text-gray-700">Log Text</span>
+                <span className="font-black text-xs uppercase tracking-widest text-gray-700">Log Text</span>
               </button>
-              
-              <button 
-                onClick={() => handleAction('Video')}
-                className="flex flex-col items-center gap-3 p-6 rounded-2xl hover:bg-gray-50 border-2 border-transparent hover:border-gray-100 transition-all duration-200 group"
-              >
-                <div className="p-4 bg-amber-50 rounded-full group-hover:scale-110 transition-transform">
-                  <img src={videoIcon} alt="Video" className="w-10 h-10" />
+              <button onClick={() => handleAction('Video')} className="flex flex-col items-center gap-3 p-6 rounded-[2rem] bg-slate-50 hover:bg-amber-50 border-2 border-transparent hover:border-amber-100 transition-all group">
+                <div className="p-4 bg-white rounded-2xl shadow-sm group-hover:scale-110 transition-transform">
+                  <img src={videoIcon} alt="Video" className="w-12 h-12 object-contain" />
                 </div>
-                <span className="font-bold text-gray-700">Log Video</span>
+                <span className="font-black text-xs uppercase tracking-widest text-gray-700">Log Video</span>
               </button>
             </div>
           </div>
-
         </div>
       </div>
     </div>

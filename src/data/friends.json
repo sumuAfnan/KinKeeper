@@ -7,7 +7,7 @@
     "days_since_contact": 2,
     "status": "on-track",
     "tags": ["College", "Best Friend"],
-    "bio": "Best friend since freshman year. We share a love for indie music and local coffee shops.",
+    "bio": "Best friend since freshman year. We share a love for indie music.",
     "goal": 7,
     "next_due_date": "2026-04-20"
   },
@@ -19,7 +19,7 @@
     "days_since_contact": 15,
     "status": "overdue",
     "tags": ["Work", "Tech"],
-    "bio": "Former colleague at TechNova. Great mentor and friend. Keen on hiking and marathon running.",
+    "bio": "Former colleague at TechNova. Great mentor and friend.",
     "goal": 14,
     "next_due_date": "2026-04-12"
   },
@@ -31,7 +31,7 @@
     "days_since_contact": 12,
     "status": "almost due",
     "tags": ["Gym", "Neighborhood"],
-    "bio": "Met at the local community center. Shares interested in urban gardening and sustainability.",
+    "bio": "Met at the local community center. Interested in gardening.",
     "goal": 14,
     "next_due_date": "2026-04-16"
   },
@@ -43,7 +43,7 @@
     "days_since_contact": 5,
     "status": "on-track",
     "tags": ["Family", "Cousin"],
-    "bio": "Favorite cousin. We grew up together and tell each other everything. Living in NYC now.",
+    "bio": "Favorite cousin. We grew up together. Living in NYC now.",
     "goal": 30,
     "next_due_date": "2026-05-10"
   },
@@ -55,7 +55,7 @@
     "days_since_contact": 30,
     "status": "overdue",
     "tags": ["High School", "Travel"],
-    "bio": "Travel buddy from high school. We went on a backpacking trip across Europe 3 years ago.",
+    "bio": "Travel buddy from high school. We went backpacking across Europe.",
     "goal": 21,
     "next_due_date": "2026-04-05"
   },
@@ -66,8 +66,8 @@
     "email": "sophia.m@example.com",
     "days_since_contact": 8,
     "status": "almost due",
-    "tags": ["Photography", "Workshop"],
-    "bio": "Met during a photography workshop. incredibly talented landscape photographer.",
+    "tags": ["Photography", "Art"],
+    "bio": "Talented landscape photographer met during a workshop.",
     "goal": 10,
     "next_due_date": "2026-04-16"
   },
@@ -79,7 +79,7 @@
     "days_since_contact": 1,
     "status": "on-track",
     "tags": ["Gaming", "Online"],
-    "bio": "Competitive gaming teammate. We play together almost every night after work.",
+    "bio": "Competitive gaming teammate. Plays every night.",
     "goal": 3,
     "next_due_date": "2026-04-16"
   },
@@ -91,8 +91,32 @@
     "days_since_contact": 20,
     "status": "overdue",
     "tags": ["Yoga", "Peace"],
-    "bio": "Yoga instructor and a very calm soul. Always has the best advice for stress management.",
+    "bio": "Yoga instructor and a very calm soul.",
     "goal": 14,
     "next_due_date": "2026-04-08"
+  },
+  {
+    "id": 9,
+    "name": "James Wright",
+    "picture": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200",
+    "email": "james.w@example.com",
+    "days_since_contact": 62,
+    "status": "almost due",
+    "tags": ["Work", "Mentoring"],
+    "bio": "A great mentor from my early career days.",
+    "goal": 60,
+    "next_due_date": "2026-04-15"
+  },
+  {
+    "id": 10,
+    "name": "Lisa Nakamura",
+    "picture": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
+    "email": "lisa.n@example.com",
+    "days_since_contact": 45,
+    "status": "overdue",
+    "tags": ["Family", "Sister"],
+    "bio": "My elder sister who lives in Japan. Miss her a lot.",
+    "goal": 30,
+    "next_due_date": "2026-04-01"
   }
 ]

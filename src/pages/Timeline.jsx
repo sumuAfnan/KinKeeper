@@ -1,96 +1,89 @@
 import React, { useState } from 'react';
 import { useFriends } from '../context/FriendContext';
-import { Calendar, MessageSquare, Phone, Video, History, Activity } from 'lucide-react';
+import { Calendar, History } from 'lucide-react';
 
-
+// Assets
+import callIcon from '../assets/call.png';
+import textIcon from '../assets/text.png';
+import videoIcon from '../assets/video.png';
 
 const Timeline = () => {
   const { interactions } = useFriends();
   const [filter, setFilter] = useState('All');
 
+   // filter logic: interactions theke type onujayi data alada kora
+ 
   const filteredInteractions = filter === 'All' 
     ? interactions 
     : interactions.filter(i => i.type === filter);
 
+  //  icone rendering function
   const getIcon = (type) => {
     switch (type) {
-      case 'Call': return <div className="p-2 bg-emerald-100 rounded-full text-emerald-600"><Phone size={18} /></div>;
-      case 'Text': return <div className="p-2 bg-purple-100 rounded-full text-purple-600"><MessageSquare size={18} /></div>;
-      case 'Video': return <div className="p-2 bg-amber-100 rounded-full text-amber-600"><Video size={18} /></div>;
-      default: return null;
+      case 'Call': return <img src={callIcon} className="w-10 h-10 object-contain" alt="Call" />;
+      case 'Text': return <img src={textIcon} className="w-10 h-10 object-contain" alt="Text" />;
+      case 'Video': return <img src={videoIcon} className="w-10 h-10 object-contain" alt="Video" />;
+      default: return <span className="text-2xl">🤝</span>;
     }
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      {/* Header & Filter Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
-        <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Interaction History</h1>
+        <h1 className="text-4xl font-black text-gray-900 tracking-tight">Timeline</h1>
         
-        <div className="flex items-center gap-2 bg-white p-1 rounded-xl shadow-sm border border-gray-100">
-          {['All', 'Call', 'Text', 'Video'].map((type) => (
-            <button
-              key={type}
-              onClick={() => setFilter(type)}
-              className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all ${
-                filter === type 
-                  ? 'bg-primary-dark text-white shadow-md' 
-                  : 'text-gray-500 hover:bg-gray-50'
-              }`}
-            >
-              {type}
-            </button>
-          ))}
-        </div>
+        <select 
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          className="bg-white border border-gray-200 px-4 py-2.5 rounded-xl font-bold text-sm outline-none shadow-sm cursor-pointer hover:border-gray-300 transition-colors"
+        >
+          <option value="All">Filter timeline</option>
+          <option value="Call">Call</option>
+          <option value="Text">Text</option>
+          <option value="Video">Video</option>
+        </select>
       </div>
 
+      {/* Main Content Area */}
       {filteredInteractions.length === 0 ? (
-        <div className="text-center py-24 card bg-white border-2 border-dashed border-gray-100 flex flex-col items-center justify-center animate-in fade-in zoom-in duration-700">
-          <div className="relative mb-8">
-            <div className="absolute inset-0 bg-primary-light/20 rounded-full blur-2xl animate-pulse"></div>
-            <div className="relative bg-white p-6 rounded-3xl shadow-xl ring-1 ring-gray-100 transform -rotate-3 hover:rotate-0 transition-transform duration-500">
-              <History className="text-primary-dark" size={64} strokeWidth={1.5} />
-            </div>
+        /* Empty State: jokhon kno log thakbe na */
+        <div className="text-center py-24 bg-white rounded-[3rem] border-2 border-dashed border-gray-100 flex flex-col items-center justify-center">
+          <div className="bg-slate-50 p-6 rounded-full mb-6">
+            <History className="text-gray-200" size={64} />
           </div>
-          <h3 className="text-2xl font-black text-gray-900 mb-3 tracking-tight">Your Timeline is Empty</h3>
-          <p className="text-gray-500 max-w-sm mx-auto leading-relaxed mb-10">
-            You haven't logged any interactions yet. Head over to a friend's profile to record your first check-in!
+          <h3 className="text-2xl font-black text-gray-900 mb-2">No history yet</h3>
+          <p className="text-gray-400 max-w-sm mx-auto text-sm font-medium">
+            Head over to a friend's profile to record your first check-in!
           </p>
-          <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 w-full max-w-md">
-            <div className="flex items-center gap-4 text-left">
-              <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 flex-shrink-0">
-                <Activity size={24} />
-              </div>
-              <div>
-                <h4 className="font-bold text-gray-900">Pro Tip</h4>
-                <p className="text-xs text-gray-500">Regular check-ins keep your friendship health scores high and streaks alive.</p>
-              </div>
-            </div>
-          </div>
         </div>
       ) : (
-        <div className="relative space-y-8">
-          {/* Vertical Line */}
-          <div className="absolute left-6 top-2 bottom-2 w-0.5 bg-gray-100 -z-10"></div>
-
-          {filteredInteractions.map((interaction, idx) => (
-            <div key={interaction.id} className="flex items-start gap-6 group">
-              <div className="z-10 bg-white p-1 rounded-full shadow-sm ring-4 ring-gray-50">
+        /* Timeline List: jokhon log kora data thakbe*/
+        <div className="space-y-4">
+          {filteredInteractions.map((interaction) => (
+            <div 
+              key={interaction.id} 
+              className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-6 hover:shadow-md transition-all group animate-in fade-in slide-in-from-bottom-3"
+            >
+              {/* Icon Container ##### */}
+              <div className="flex-shrink-0 p-4 bg-slate-50 rounded-2xl group-hover:bg-white group-hover:shadow-inner transition-all">
                 {getIcon(interaction.type)}
               </div>
               
-              <div className="flex-grow card p-5 hover:shadow-md transition-all group-hover:border-primary-light">
-                <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-2 mb-2">
-                  <h3 className="text-lg font-bold text-gray-900">
-                    {interaction.type} with <span className="text-primary-dark">{interaction.friendName}</span>
+              {/* ekhane Entry Information */}
+              <div className="flex-grow">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                  <h3 className="text-lg font-black text-gray-800 leading-none">
+                    {interaction.type} 
+                    <span className="text-gray-400 font-bold text-sm ml-2">with {interaction.friendName}</span>
                   </h3>
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-gray-400 uppercase tracking-widest bg-gray-50 px-3 py-1 rounded-full border border-gray-100">
-                    <Calendar size={12} />
+                  
+                  {/* ekhane Date Badge */}
+                  <div className="flex items-center gap-2 text-[11px] font-black text-gray-400 uppercase tracking-widest bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">
+                    <Calendar size={14} className="text-gray-300" /> 
                     {interaction.date}
                   </div>
                 </div>
-                <p className="text-gray-500 text-sm">
-                  Successfully logged a {interaction.type.toLowerCase()} interaction to maintain your friendship streak.
-                </p>
               </div>
             </div>
           ))}

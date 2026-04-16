@@ -16,6 +16,7 @@ export const FriendProvider = ({ children }) => {
 
   const [loading, setLoading] = useState(true);
 
+  // data save kora
   useEffect(() => {
     localStorage.setItem('keenkeeper_friends', JSON.stringify(friends));
   }, [friends]);
@@ -25,11 +26,11 @@ export const FriendProvider = ({ children }) => {
   }, [interactions]);
 
   useEffect(() => {
-    // Simulate initial loading
     const timer = setTimeout(() => setLoading(false), 1000);
     return () => clearTimeout(timer);
   }, []);
 
+  //  interaction add korar function
   const addInteraction = (friendId, type) => {
     const friend = friends.find(f => f.id === parseInt(friendId));
     if (!friend) return;
@@ -38,7 +39,7 @@ export const FriendProvider = ({ children }) => {
       id: Date.now(),
       friendId: friend.id,
       friendName: friend.name,
-      type, // 'Call', 'Text', 'Video'
+      type: type, // 'Call', 'Text', 'Video'
       date: new Date().toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
@@ -49,7 +50,7 @@ export const FriendProvider = ({ children }) => {
 
     setInteractions(prev => [newInteraction, ...prev]);
 
-    // Update friend status (reset contact days for simplicity in this demo)
+    // friend status update kora
     setFriends(prev => prev.map(f => {
       if (f.id === friend.id) {
         return {
