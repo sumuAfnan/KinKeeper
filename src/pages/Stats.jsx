@@ -1,10 +1,13 @@
 import React from 'react';
 import { useFriends } from '../context/FriendContext';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
-import { BarChart3, TrendingUp, Users, Heart } from 'lucide-react';
+import { BarChart3, Users, Heart, TrendingUp } from 'lucide-react';
 
 const Stats = () => {
   const { interactions, friends } = useFriends();
+  
+ 
+  const hasInteractions = interactions.length > 0;
 
   // Aggregate Data for Pie Chart
   const dataMap = interactions.reduce((acc, curr) => {
@@ -13,12 +16,12 @@ const Stats = () => {
   }, { Call: 0, Text: 0, Video: 0 });
 
   const chartData = [
-    { name: 'Call', value: dataMap.Call, color: '#10B981' }, // emerald-500
-    { name: 'Text', value: dataMap.Text, color: '#8B5CF6' }, // violet-500
-    { name: 'Video', value: dataMap.Video, color: '#F59E0B' }, // amber-500
+    { name: 'Call', value: dataMap.Call, color: '#10B981' }, 
+    { name: 'Text', value: dataMap.Text, color: '#8B5CF6' }, 
+    { name: 'Video', value: dataMap.Video, color: '#F59E0B' }, 
   ];
 
-  // Additional Analytics
+  // Analytics Calculation
   const topFriend = friends.length > 0 ? friends.reduce((prev, current) => (prev.days_since_contact < current.days_since_contact) ? prev : current) : null;
   const healthScore = friends.length > 0 ? Math.round((friends.filter(f => f.status === 'on-track').length / friends.length) * 100) : 0;
 
@@ -29,16 +32,16 @@ const Stats = () => {
         <p className="text-gray-500">Insights into how you're maintaining your social connections.</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         
-        {/* Pie Chart Section */}
-        <div className="lg:col-span-2 card p-8 h-[500px] flex flex-col">
+        
+        <div className="lg:col-span-2 card p-8 h-[500px] flex flex-col bg-white rounded-[2.5rem] border border-gray-100 shadow-sm">
           <h3 className="text-xl font-bold text-gray-900 mb-8 flex items-center gap-2">
-            <BarChart3 size={20} className="text-primary-dark" />
+            <BarChart3 size={20} className="text-emerald-600" />
             Interaction Distribution
           </h3>
           <div className="flex-grow">
-            {interactions.length > 0 ? (
+            {hasInteractions ? (
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -49,64 +52,77 @@ const Stats = () => {
                     outerRadius={140}
                     paddingAngle={5}
                     dataKey="value"
-                    animationBegin={0}
                     animationDuration={1500}
                   >
                     {chartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
+                      <Cell key={`cell-${index}`} fill={entry.color} stroke="none" />
                     ))}
                   </Pie>
-                  <Tooltip 
-                    contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
-                  />
+                  <Tooltip contentStyle={{ borderRadius: '12px', border: 'none' }} />
                   <Legend verticalAlign="bottom" height={36}/>
                 </PieChart>
               </ResponsiveContainer>
             ) : (
-              <div className="flex items-center justify-center h-full text-gray-400 font-medium italic">
-                No interaction data to display yet.
+              <div className="flex flex-col items-center justify-center h-full text-gray-400 gap-4">
+                <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center">
+                   <BarChart3 className="opacity-20" size={32} />
+                </div>
+                <p className="font-medium italic">No interaction data to display yet. Log a call or text to see stats!</p>
               </div>
             )}
           </div>
         </div>
 
-        {/* Key Metrics Sidebar */}
+       
         <div className="space-y-6">
-          <div className="card p-6 bg-emerald-50 border-emerald-100">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="p-3 bg-white rounded-xl text-emerald-600 shadow-sm">
-                <Heart size={24} />
-              </div>
-              <h4 className="font-bold text-emerald-900">Health Score</h4>
-            </div>
-            <div className="flex items-end gap-2">
-              <span className="text-4xl font-black text-emerald-600">{healthScore}%</span>
-              <span className="text-emerald-700 text-sm font-medium mb-1">On-Track</span>
-            </div>
-            <p className="text-emerald-700/70 text-xs mt-3">Percentage of friends in "on-track" status.</p>
-          </div>
-
-          <div className="card p-6">
-            <div className="flex items-center gap-4 mb-4">
-               <div className="p-3 bg-gray-50 rounded-xl text-primary-dark">
-                <Users size={24} />
-              </div>
-              <h4 className="font-bold text-gray-900">Total Contacts</h4>
-            </div>
-            <div className="text-3xl font-black text-gray-900">{friends.length}</div>
-            <p className="text-gray-500 text-xs mt-2">Friends managed in your personal circle.</p>
-          </div>
-
-          {topFriend && (
-            <div className="card p-6 border-l-4 border-amber-400">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-1 bg-amber-50 rounded-full border border-amber-100">
-                  <img src={topFriend.picture} alt="" className="w-10 h-10 rounded-full object-cover" />
+          {hasInteractions ? (
+          
+            <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-700">
+              
+              <div className="card p-6 bg-emerald-50 border-emerald-100 rounded-[2rem] shadow-sm">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="p-3 bg-white rounded-xl text-emerald-600 shadow-sm">
+                    <Heart size={24} />
+                  </div>
+                  <h4 className="font-bold text-emerald-900">Health Score</h4>
                 </div>
-                <h4 className="font-bold text-gray-900">Most Consistent</h4>
+                <div className="flex items-end gap-2">
+                  <span className="text-4xl font-black text-emerald-600">{healthScore}%</span>
+                  <span className="text-emerald-700 text-sm font-medium mb-1">On-Track</span>
+                </div>
+                <p className="text-emerald-700/70 text-xs mt-3">Percentage of friends in "on-track" status.</p>
               </div>
-              <p className="text-sm text-gray-600 mb-2">You're staying closest to:</p>
-              <div className="font-bold text-lg text-amber-600">{topFriend.name}</div>
+
+              <div className="card p-6 rounded-[2rem] bg-white border border-gray-100 shadow-sm">
+                <div className="flex items-center gap-4 mb-4">
+                   <div className="p-3 bg-gray-50 rounded-xl text-emerald-600">
+                    <Users size={24} />
+                  </div>
+                  <h4 className="font-bold text-gray-900">Total Contacts</h4>
+                </div>
+                <div className="text-3xl font-black text-gray-900">{friends.length}</div>
+                <p className="text-gray-500 text-xs mt-2">Friends managed in your personal circle.</p>
+              </div>
+
+              {topFriend && (
+                <div className="card p-6 border-l-4 border-amber-400 rounded-[2rem] bg-white shadow-sm">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="p-1 bg-amber-50 rounded-full border border-amber-100 overflow-hidden">
+                      <img src={topFriend.picture} alt="" className="w-10 h-10 rounded-full object-cover" />
+                    </div>
+                    <h4 className="font-bold text-gray-900">Most Consistent</h4>
+                  </div>
+                  <div className="font-bold text-lg text-amber-600">{topFriend.name}</div>
+                </div>
+              )}
+            </div>
+          ) : (
+           
+            <div className="h-[450px] border-2 border-dashed border-gray-100 rounded-[2.5rem] flex flex-col items-center justify-center p-8 text-center bg-gray-50/30">
+               <TrendingUp className="text-gray-200 mb-4" size={48} />
+               <p className="text-gray-400 text-sm font-medium leading-relaxed">
+                 Stats are hidden. <br/> Please log an interaction to reveal your analytics.
+               </p>
             </div>
           )}
         </div>
